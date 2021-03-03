@@ -2,10 +2,14 @@ import axios from "axios";
 import { fetchDataURL } from "../../api";
 import {
   LOAD_COST_BASIS_OUTPUT,
+  LOADING_COST_BASIS_OUTPUT,
   RESET_COST_BASIS_DATA,
 } from "./types/loadOutputType";
 
 export const loadOutput = () => async (dispatch) => {
+  dispatch({
+    type: LOADING_COST_BASIS_OUTPUT,
+  });
   await axios
     .get(fetchDataURL())
     .then((res) => {
@@ -18,6 +22,9 @@ export const loadOutput = () => async (dispatch) => {
     .catch((err) => {
       if (err.message === "Network Error") alert("No response form server!");
       else alert(err.message);
+      dispatch({
+        type: LOADING_COST_BASIS_OUTPUT,
+      });
     });
 };
 

@@ -23,7 +23,6 @@ const UploadTransaction = () => {
               await axios
                 .post(uploadDataURL(), evt.target.result)
                 .then((res) => {
-                  console.log(res);
                   alert(res.data);
                   resetForm();
                 })

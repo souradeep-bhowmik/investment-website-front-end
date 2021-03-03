@@ -2,13 +2,17 @@ import React, { useEffect } from "react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useSelector } from "react-redux";
 import { Item, Grid } from "../styled-components/Styles";
+import { Spinner } from "reactstrap";
 
 const TableData = () => {
   const rows = useSelector((state) => {
     return state.data.costBasisData;
   });
+  const isLoading = useSelector((state) => {
+    return state.data.isLoading;
+  });
 
-  useEffect(() => {}, [rows]);
+  useEffect(() => {}, [rows, isLoading]);
 
   const data = {
     columns: [
@@ -76,23 +80,27 @@ const TableData = () => {
     ((TOTAL_SOLD - TOTAL_BOUGHT) / TOTAL_BOUGHT) * 100
   }) %`;
 
-  return rows.length !== 0 ? (
-    <>
-      <Grid>
-        <Item>Total Bought: $ {TOTAL_BOUGHT}</Item>
-        <Item>Total Sold: $ {TOTAL_SOLD}</Item>
-        <Item>Total Profit: $ {TOTAL_PROFIT}</Item>
-      </Grid>
-      <MDBDataTableV5
-        order={["sellDate", "desc"]}
-        striped
-        bordered
-        small
-        data={data}
-        fullPagination
-      />
-    </>
-  ) : null;
+  if (isLoading) {
+    return <Spinner color="primary" />;
+  } else {
+    return rows.length !== 0 ? (
+      <>
+        <Grid>
+          <Item>Total Bought: $ {TOTAL_BOUGHT}</Item>
+          <Item>Total Sold: $ {TOTAL_SOLD}</Item>
+          <Item>Total Profit: $ {TOTAL_PROFIT}</Item>
+        </Grid>
+        <MDBDataTableV5
+          order={["sellDate", "desc"]}
+          striped
+          bordered
+          small
+          data={data}
+          fullPagination
+        />
+      </>
+    ) : null;
+  }
 };
 
 export default TableData;
