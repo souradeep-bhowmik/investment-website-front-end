@@ -9,6 +9,4 @@ export const loadOutput = () => async (dispatch) => {
     type: LOAD_COST_BASIS_OUTPUT,
     payload: costBasisOutput.data,
   });
-
-  // console.log(costBasisOutput.data);
 };

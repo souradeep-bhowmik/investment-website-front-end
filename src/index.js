@@ -15,6 +15,7 @@ import rootReducer from "./redux/reducers";
 import reduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 
+//  Setting default axios header configuration
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 

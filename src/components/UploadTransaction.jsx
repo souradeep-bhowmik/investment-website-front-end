@@ -1,28 +1,59 @@
 import React from "react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import axios from "axios";
 import { uploadDataURL } from "../api";
 
 const UploadTransaction = () => {
   return (
     <>
-      <h1>Upload transaction data</h1>
+      <hr />
       <Formik
         initialValues={{
-          payload: "",
+          file: null,
         }}
         onSubmit={async (values, { resetForm }) => {
-          console.log(values.payload);
-          await axios.post(uploadDataURL, values.payload);
-          resetForm();
+          if (values.file === null) alert("Please select a file!");
+          else {
+            var reader = new FileReader();
+            reader.readAsText(values.file, "UTF-8");
+            reader.onload = async function (evt) {
+              await axios
+                .post(uploadDataURL(), evt.target.result)
+                .then((res) => {
+                  alert("Successfully uploaded the transaction file!");
+                  resetForm();
+                })
+                .catch((err) => {
+                  console.log(err.response);
+                });
+            };
+            reader.onerror = function (evt) {
+              alert(`Error reading file ${evt.target}`);
+            };
+          }
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form>
-            <label htmlFor="firstName">First Name</label>
-            <Field name="payload" placeholder="Jane" />
-
-            <button type="submit" disabled={isSubmitting}>
+            <div className="form-group">
+              <label htmlFor="file">File upload</label>
+              <input
+                id="file"
+                name="file"
+                type="file"
+                onChange={(event) => {
+                  setFieldValue("file", event.currentTarget.files[0]);
+                }}
+                className="form-control"
+                disabled={isSubmitting}
+              />
+            </div>
+            <hr />
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
               Submit
             </button>
           </Form>
