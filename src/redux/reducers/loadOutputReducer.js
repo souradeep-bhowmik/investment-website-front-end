@@ -1,4 +1,7 @@
-import { LOAD_COST_BASIS_OUTPUT } from "../actions/types/loadOutputType";
+import {
+  LOAD_COST_BASIS_OUTPUT,
+  RESET_COST_BASIS_DATA,
+} from "../actions/types/loadOutputType";
 
 const initState = { costBasisData: [] };
 
@@ -9,6 +12,9 @@ const loadOuputReducer = (state = initState, action) => {
         ...state,
         costBasisData: action.payload,
       };
+    }
+    case RESET_COST_BASIS_DATA: {
+      return { costBasisData: [] };
     }
 
     default: {

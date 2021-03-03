@@ -36,7 +36,7 @@ const UploadTransaction = () => {
         {({ isSubmitting, setFieldValue }) => (
           <Form>
             <div className="form-group">
-              <label htmlFor="file">File upload</label>
+              <label htmlFor="file">Select transaction file to upload: </label>
               <input
                 id="file"
                 name="file"

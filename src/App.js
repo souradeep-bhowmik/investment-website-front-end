@@ -1,6 +1,6 @@
 import UploadTransaction from "./components/UploadTransaction";
 import TableData from "./components/TableData";
-import { loadOutput } from "./redux/actions/loadOutputAction";
+import { loadOutput, resetData } from "./redux/actions/loadOutputAction";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -25,6 +25,14 @@ function App() {
         }}
       >
         Display data
+      </button>
+      <button
+        className="btn btn-secondary"
+        onClick={() => {
+          dispatch(resetData());
+        }}
+      >
+        Reset data
       </button>
       <DisplayDataComponent>
         <TableData />
