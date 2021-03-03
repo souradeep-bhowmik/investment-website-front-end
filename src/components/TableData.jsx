@@ -76,8 +76,6 @@ const TableData = () => {
     ((TOTAL_SOLD - TOTAL_BOUGHT) / TOTAL_BOUGHT) * 100
   }) %`;
 
-  console.log(TOTAL_BOUGHT, TOTAL_SOLD, TOTAL_PROFIT);
-
   return rows.length !== 0 ? (
     <>
       <Grid>

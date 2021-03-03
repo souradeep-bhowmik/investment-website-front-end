@@ -12,11 +12,14 @@ const UploadTransaction = () => {
           file: null,
         }}
         onSubmit={async (values, { resetForm }) => {
+          //  Restrict empty file upload
           if (values.file === null) alert("Please select a file!");
           else {
+            //  File reader is used to read contents of uploaded file and send as response body
             var reader = new FileReader();
             reader.readAsText(values.file, "UTF-8");
             reader.onload = async function (evt) {
+              //  On successfully reading the file data, trigger an axios post request to upload the contents
               await axios
                 .post(uploadDataURL(), evt.target.result)
                 .then((res) => {
@@ -24,7 +27,9 @@ const UploadTransaction = () => {
                   resetForm();
                 })
                 .catch((err) => {
-                  console.log(err.response);
+                  if (err.message === "Network Error")
+                    alert("No response form server!");
+                  else alert(err.message);
                 });
             };
             reader.onerror = function (evt) {
