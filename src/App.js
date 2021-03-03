@@ -1,9 +1,22 @@
 import UploadTransaction from "./components/UploadTransaction";
+import TableData from "./components/TableData";
+import { loadOutput } from "./redux/actions/loadOutputAction";
+import { useDispatch } from "react-redux";
+
 function App() {
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
-      <h2>Hello</h2>
       <UploadTransaction />
+      <button
+        onClick={() => {
+          dispatch(loadOutput());
+        }}
+      >
+        Display data
+      </button>
+      <TableData />
     </div>
   );
 }

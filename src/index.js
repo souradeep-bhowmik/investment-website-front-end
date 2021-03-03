@@ -3,14 +3,33 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+//  Axios
 import axios from "axios";
+//  Data table default imports
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+//  Redux configuration imports
+import { createStore, applyMiddleware, compose } from "redux";
+import rootReducer from "./redux/reducers";
+import reduxThunk from "redux-thunk";
+import { Provider } from "react-redux";
 
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  composeEnhancer(applyMiddleware(reduxThunk))
+);
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

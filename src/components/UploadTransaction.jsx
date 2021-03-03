@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
 import axios from "axios";
+import { uploadDataURL } from "../api";
 
 const UploadTransaction = () => {
   return (
@@ -12,10 +13,7 @@ const UploadTransaction = () => {
         }}
         onSubmit={async (values, { resetForm }) => {
           console.log(values.payload);
-          await axios.post(
-            "http://localhost:8080/transaction/savetransactions?user=Souradeep+Bhowmik",
-            values.payload
-          );
+          await axios.post(uploadDataURL, values.payload);
           resetForm();
         }}
       >
