@@ -21,7 +21,6 @@ const loadOuputReducer = (state = initState, action) => {
     case RESET_COST_BASIS_DATA: {
       return { costBasisData: [] };
     }
-
     default: {
       return { ...state };
     }

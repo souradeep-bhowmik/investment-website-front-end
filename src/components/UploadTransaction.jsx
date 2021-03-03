@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import axios from "axios";
 import { uploadDataURL } from "../api";
+import { Spinner } from "reactstrap";
+import { toggleUploadTransaction } from "../redux/actions/uploadTransactionAction";
 
 const UploadTransaction = () => {
+  const dispatch = useDispatch();
+
+  const isUploadActive = useSelector((state) => {
+    return state.uploadDataBoolean.isActive;
+  });
+
+  useEffect(() => {}, [isUploadActive]);
+
   return (
     <>
+      {isUploadActive && <Spinner color="primary" />}
       <hr />
       <Formik
         initialValues={{
           file: null,
         }}
-        onSubmit={async (values, { resetForm }) => {
+        onSubmit={async (values, { resetForm, props }) => {
           //  Restrict empty file upload
           if (values.file === null) alert("Please select a file!");
           else {
+            dispatch(toggleUploadTransaction());
             //  File reader is used to read contents of uploaded file and send as response body
             var reader = new FileReader();
             reader.readAsText(values.file, "UTF-8");
@@ -24,7 +37,6 @@ const UploadTransaction = () => {
                 .post(uploadDataURL(), evt.target.result)
                 .then((res) => {
                   alert(res.data);
-                  resetForm();
                 })
                 .catch((err) => {
                   if (err.message === "Network Error")
@@ -35,6 +47,8 @@ const UploadTransaction = () => {
             reader.onerror = function (evt) {
               alert(`Error reading file ${evt.target}`);
             };
+            dispatch(toggleUploadTransaction());
+            resetForm();
           }
         }}
       >
